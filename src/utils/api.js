@@ -13,7 +13,9 @@ api.interceptors.response.use(
   res => res,
   err => {
     if (err.response) {
-      if (err.response.data.message != null) {
+      if (err.response.data.data) {
+        store.dispatch(setAlert(err.response.data.data, 'error'));
+      } else {
         store.dispatch(setAlert(err.response.data.message, 'error'));
       }
     } else {

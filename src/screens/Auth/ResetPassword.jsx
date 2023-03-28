@@ -354,7 +354,6 @@ const ResetPassword = ({resetPassword, auth, navigation, route}) => {
       navigation.navigate('Home');
       return;
     }
-
     if (!route.params) {
       navigation.navigate('SignIn');
       return;

@@ -118,7 +118,8 @@ function ProductInfo({
           {thousandFormatter(productInfo.data.price.toString()) + ' '}
           Kč
         </Text>
-        {productInfo.data.winningUserId == currentUser &&
+        {currentUser &&
+          productInfo.data.winningUserId == currentUser &&
           (productInfo.data.status == 0 ? (
             <Text
               fontSize="xl"
@@ -466,7 +467,7 @@ const ProductDetail = ({
   };
 
   const bid = amount => {
-    amount = amount.replace(' ', '');
+    amount = amount.split(' ').join('');
     if (!auth.isAuthenticated) {
       navigation.navigate('Auth', {screen: 'SignIn'});
       return;
@@ -476,6 +477,7 @@ const ProductDetail = ({
       setAlert('Částka musí být vyšší než momentální nejvyšší příhoz', 'error');
       return;
     }
+
     addBid({
       amount: parseInt(amount),
       user_id: auth.user.id,
