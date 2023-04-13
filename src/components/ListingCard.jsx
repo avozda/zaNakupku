@@ -103,7 +103,7 @@ const ListingCard = ({
           }
           alt="Advertisement"
           resizeMode="contain"
-          opacity={imageLoaded ? '100%' : '0%'}
+          opacity={imageLoaded ? '1' : '0'}
         />
       </Pressable>
       <HStack

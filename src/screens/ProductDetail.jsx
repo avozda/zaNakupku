@@ -148,7 +148,11 @@ function ProductInfo({
         <Text fontSize="sm" fontWeight="normal" color={textColorB}>
           {productInfo.data.status == 0 ||
           new Date(productInfo.data.ending) < new Date() ? (
-            <>Konečná cena</>
+            productInfo.data.winningUserId ? (
+              <>Konečná cena</>
+            ) : (
+              <>Nikdo se aukce nezúčastnil</>
+            )
           ) : (
             <>Aktuální cena</>
           )}
@@ -203,7 +207,7 @@ function Description({productDescription, contact, location}) {
         _light={{color: 'coolGray.800'}}
         _dark={{color: 'coolGray.50'}}
       >
-        {'Lokace: ' + location}
+        {location && 'Lokace: ' + location}
       </Text>
       <Text
         fontSize="sm"
@@ -212,7 +216,7 @@ function Description({productDescription, contact, location}) {
         _light={{color: 'coolGray.800'}}
         _dark={{color: 'coolGray.50'}}
       >
-        {'Kontakt: ' + contact}
+        {contact && 'Kontakt: ' + contact}
       </Text>
       <Text
         mt="4"
