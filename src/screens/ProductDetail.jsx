@@ -79,7 +79,7 @@ function ProductInfo({
 
       return () => clearInterval(intervalId);
     }
-  }, []);
+  }, [productInfo.data.ending]);
 
   useEffect(() => {
     setPrice(productInfo.data.price);
@@ -456,10 +456,6 @@ const ProductDetail = ({
     getProduct(route.params.id);
     createAuctionConnection(route.params.id);
   }, [route, getProduct, isFocused]);
-  React.useEffect(() => {
-    console.log(product);
-  }, [product]);
-
   const goToCategory = () => {
     navigation.navigate('Listings', {
       categoryCode: product.product.data.category.code,

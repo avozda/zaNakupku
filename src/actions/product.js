@@ -62,7 +62,6 @@ export const addListing = (formData, navigation) => async dispatch => {
 
     navigation.navigate('MyListings', {screen: 'MyListingsPage'});
   } catch (error) {
-    console.log(error);
     dispatch({
       type: PRODUCT_ERROR,
       payload: error,
