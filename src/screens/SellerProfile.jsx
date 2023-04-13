@@ -13,6 +13,8 @@ import {
   Pressable,
   useColorModeValue,
   ScrollView,
+  Circle,
+  Button,
   Spinner,
 } from 'native-base';
 import {MaterialIcons, EvilIcons} from '@expo/vector-icons';
@@ -22,6 +24,7 @@ import {getProfile} from '../actions/profile';
 import ListingCard from '../components/ListingCard';
 import {useIsFocused} from '@react-navigation/native';
 import moment from 'moment/moment';
+
 const tabs = [
   {
     id: 1,
@@ -70,7 +73,7 @@ function TabItem({tabName, currentTab, handleTabChange}) {
   );
 }
 
-const UserProfile = ({user}) => {
+const UserProfile = ({user, navigation, auth}) => {
   return (
     <>
       <Avatar size="lg" bg="emerald.600" source={''}>
@@ -94,6 +97,7 @@ const UserProfile = ({user}) => {
       >
         {user.location}
       </Text>
+
       <VStack>
         <Text
           mt={3}
@@ -131,6 +135,64 @@ const UserProfile = ({user}) => {
         >
           {user.phone_number}
         </Text>
+        {auth.isAuthenticated && (
+          <Pressable
+            onPress={() => {
+              navigation.navigate('Home', {
+                screen: 'SendMessage',
+                params: {id: user.id},
+              });
+            }}
+            py={1}
+            px={2}
+            m={2}
+            rounded="sm"
+            _light={{
+              _hover: {bg: 'primary.100'},
+              _pressed: {bg: 'primary.200'},
+            }}
+            _dark={{
+              _hover: {bg: 'coolGray.700'},
+              _pressed: {bg: 'coolGray.600'},
+            }}
+          >
+            <HStack alignItems="center" justifyContent="space-between">
+              <HStack space="3" alignItems="center">
+                <Circle
+                  _light={{bg: 'primary.100'}}
+                  _dark={{bg: 'coolGray.700'}}
+                  p={2}
+                  mr={2}
+                  rounded="full"
+                >
+                  <Icon
+                    as={MaterialIcons}
+                    name={'email'}
+                    size={6}
+                    _light={{color: 'primary.900'}}
+                    _dark={{color: 'primary.500'}}
+                  />
+                </Circle>
+                <Text
+                  alignItems="center"
+                  fontSize="md"
+                  _light={{color: 'coolGray.800'}}
+                  _dark={{color: 'coolGray.50'}}
+                >
+                  Odeslat e-mail
+                </Text>
+              </HStack>
+              <Icon
+                ml={2}
+                as={MaterialIcons}
+                name="chevron-right"
+                size={6}
+                _light={{color: 'coolGray.800'}}
+                _dark={{color: 'coolGray.50'}}
+              />
+            </HStack>
+          </Pressable>
+        )}
       </VStack>
     </>
   );
@@ -259,12 +321,12 @@ function Review({item, navigation}) {
   );
 }
 
-const SellerProfile = ({navigation, profileStore, getProfile, route}) => {
+const SellerProfile = ({navigation, profileStore, getProfile, route, auth}) => {
   const isFocused = useIsFocused();
   const [tabName, setTabName] = React.useState('Aukce');
 
   useEffect(() => {
-    getProfile(route.params.id);
+    isFocused && getProfile(route.params.id);
   }, [getProfile, isFocused]);
 
   const noColumn = useBreakpointValue({
@@ -299,7 +361,11 @@ const SellerProfile = ({navigation, profileStore, getProfile, route}) => {
               alignItems="center"
               safeAreaBottom
             >
-              <UserProfile user={profileStore.profile.data} />
+              <UserProfile
+                auth={auth}
+                user={profileStore.profile.data}
+                navigation={navigation}
+              />
               <StatsComponent
                 stats={[
                   {
@@ -370,7 +436,7 @@ const SellerProfile = ({navigation, profileStore, getProfile, route}) => {
           _light={{bgColor: 'white'}}
           h={'100%'}
         >
-          <Spinner size="lg" />
+          <Spinner />
         </Center>
       )}
     </DashboardLayout>
@@ -379,5 +445,6 @@ const SellerProfile = ({navigation, profileStore, getProfile, route}) => {
 
 const mapStateToProps = state => ({
   profileStore: state.profile,
+  auth: state.auth,
 });
 export default connect(mapStateToProps, {getProfile})(SellerProfile);

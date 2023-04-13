@@ -23,6 +23,7 @@ import PaymentPage from '../../screens/PaymentPage';
 import ForgotPassword from '../../screens/Auth/ForgotPassword';
 import ResetPassword from '../../screens/Auth/ResetPassword';
 import EmailVerificationResult from '../../screens/Auth/EmailVerificationResult';
+import SendMessage from '../../screens/SendMessage';
 
 const linking = {
   prefixes: ['exp://', 'localhost:3000', 'http://localhost:3000'],
@@ -36,6 +37,7 @@ const linking = {
           Listings: '/kategorie/:categoryCode',
           SearchResults: '/vysledek-vyhledavani',
           SellerProfile: '/uzivatel/:id',
+          SendMessage: '/kontaktovat/:id',
         },
       },
       Favourites: {
@@ -94,6 +96,7 @@ const Home = () => (
     <HomeStack.Screen name="Signup" component={SignUp} />
     <HomeStack.Screen name="SearchResults" component={SearchResults} />
     <HomeStack.Screen name="SellerProfile" component={SellerProfile} />
+    <HomeStack.Screen name="SendMessage" component={SendMessage} />
   </HomeStack.Navigator>
 );
 

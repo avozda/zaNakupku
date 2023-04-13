@@ -9,6 +9,7 @@ import {
   FAVOURITES_LOADED,
   PRODUCT_UPDATE,
   PRODUCT_CREATE,
+  BID_LOADING,
 } from '../actions/types';
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   loading: true,
   error: null,
   favouriteError: false,
+  bidLoading: false,
 };
 const product = (state = initialState, action) => {
   switch (action.type) {
@@ -33,6 +35,11 @@ const product = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+      };
+    case BID_LOADING:
+      return {
+        ...state,
+        bidLoading: true,
       };
     case GET_PRODUCT:
       return {
@@ -55,6 +62,7 @@ const product = (state = initialState, action) => {
           },
         },
         loading: false,
+        bidLoading: false,
       };
     case GET_PRODUCTS:
       return {

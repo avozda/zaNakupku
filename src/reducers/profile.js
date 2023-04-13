@@ -1,4 +1,10 @@
-import {GET_PROFILE, PROFILE_LOADING, PROFILE_ERROR} from '../actions/types';
+import {
+  GET_PROFILE,
+  PROFILE_LOADING,
+  PROFILE_ERROR,
+  MESSAGE_LOADING,
+  MESSAGE_SEND,
+} from '../actions/types';
 
 const initialState = {
   profile: null,
@@ -17,6 +23,16 @@ const profile = (state = initialState, action) => {
       return {
         ...state,
         profile: action.payload,
+        loading: false,
+      };
+    case MESSAGE_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case MESSAGE_SEND:
+      return {
+        ...state,
         loading: false,
       };
     case PROFILE_ERROR:

@@ -14,6 +14,7 @@ import {
   Stack,
   useColorModeValue,
   InputGroup,
+  Heading,
   InputRightAddon,
   Hidden,
   Center,
@@ -391,9 +392,14 @@ const AddToCartButton = props => {
           props.bidAction(props.price);
         }}
       >
-        <Text fontWeight={'semibold'} color="white">
-          Přihodit
-        </Text>
+        <HStack space={2} justifyContent="center">
+          {props.loading && (
+            <Spinner accessibilityLabel="Loading" color={'white'} size="sm" />
+          )}
+          <Heading color="white" fontSize="sm">
+            Přihodit
+          </Heading>
+        </HStack>
       </Button>
     </HStack>
   );
@@ -560,6 +566,7 @@ const ProductDetail = ({
                       bidAction={bid}
                       error={product.favouriteError}
                       isFavourite={product.product.data.isFavourite}
+                      loading={product.bidLoading}
                       addListingToFavourite={addListingToFavourite}
                       price={price}
                     />
@@ -585,6 +592,7 @@ const ProductDetail = ({
                       bidAction={bid}
                       error={product.favouriteError}
                       isFavourite={product.product.data.isFavourite}
+                      loading={product.bidLoading}
                       addListingToFavourite={addListingToFavourite}
                       price={price}
                     />

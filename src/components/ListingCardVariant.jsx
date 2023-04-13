@@ -10,7 +10,7 @@ import {
   useColorModeValue,
   Skeleton,
 } from 'native-base';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 const ListingCardVariant = ({
   displaySold = false,
@@ -31,15 +31,27 @@ const ListingCardVariant = ({
           id: {props.item.id}
         </Text>
 
-        <Pressable
-          onPress={() =>
-            navigation.navigate('SellerProfile', {
-              id: props.item.user.id,
-            })
-          }
-        >
-          <Text color={'primary.900'} fontSize={'xs'}></Text>
-        </Pressable>
+        {!reviewButton &&
+          props.item.winningUserUsername &&
+          props.item.status == 0 && (
+            <HStack pt={2}>
+              <Text mr={2}>Výherce:</Text>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate('Home', {
+                    screen: 'SellerProfile',
+                    params: {
+                      id: props.item.winningUserId,
+                    },
+                  });
+                }}
+              >
+                <Text fontWeight={'medium'} color="primary.600">
+                  {props.item.winningUserUsername}
+                </Text>
+              </Pressable>
+            </HStack>
+          )}
       </HStack>
       <HStack alignItems="center" mt="3" space="3">
         {!imageLoaded ? (
@@ -93,7 +105,9 @@ const ListingCardVariant = ({
             _dark={{color: 'coolGray.400'}}
           >
             {props.item.status == 0 || new Date(props.item.ending) < new Date()
-              ? 'Konečná cena'
+              ? props.item.winningUserId
+                ? 'Konečná cena'
+                : 'Nikdo na aukci nepřihodil'
               : 'Momentální cena'}
           </Text>
           <Text
@@ -123,6 +137,7 @@ const ListingCardVariant = ({
           >
             Zobrazit detail
           </Button>
+
           {reviewButton ? (
             <Button
               variant="outline"

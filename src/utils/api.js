@@ -3,7 +3,7 @@ import {store} from '../../store';
 import {LOGOUT} from '../actions/types';
 import {setAlert} from '../actions/alert';
 const api = axios.create({
-  baseURL: 'http://creativniprojekty.cz:6969/api',
+  baseURL: 'http://creativniprojekty.cz:9119/api',
   headers: {
     'Content-Type': 'application/json',
   },

@@ -10,6 +10,7 @@ import {
   FAVOURITES_LOADED,
   PRODUCT_UPDATE,
   PRODUCT_CREATE,
+  BID_LOADING,
 } from './types';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
@@ -50,9 +51,7 @@ export const getProduct = id => async dispatch => {
 //přidate nabídku
 export const addListing = (formData, navigation) => async dispatch => {
   try {
-    console.log('start');
     dispatch(startLoading());
-    console.log('kokot');
     const res = await api.post('/listings', formData, {
       headers: {'Content-Type': 'multipart/form-data'},
     });
@@ -73,6 +72,7 @@ export const addListing = (formData, navigation) => async dispatch => {
 
 //přihodit
 export const addBid = formData => async dispatch => {
+  dispatch(startBidLoading());
   try {
     const res = await api.post('/payments/bid', formData);
     dispatch(setAlert('Příhoz byl proveden úspešně', 'success'));
@@ -217,4 +217,7 @@ export const removeFromFavourite = id => async dispatch => {
 
 export const startLoading = () => async dispatch => {
   dispatch({type: PRODUCT_LOADING, payload: false});
+};
+export const startBidLoading = () => async dispatch => {
+  dispatch({type: BID_LOADING, payload: false});
 };
